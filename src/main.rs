@@ -7,24 +7,26 @@ fn main() {
 
     let mut last_arg: String = String::new();
     let mut min_input: u64 = 20;
+    let mut start_msg: String= String::from( if min_input > 5 {"time to focus"} else { "time to rest" } );
 
     for arg  in args {        
         if last_arg  == "-t" || last_arg  ==  "-T" {
-            min_input = arg.parse().expect("Positive Integer");
+            min_input = arg.parse().expect("expected a positive integer");
+        } else if last_arg == "-m" || last_arg == "-M" {
+            start_msg = arg.clone();
         }
         last_arg = arg.clone();
     }
+    println!("{start_msg}\n");
 
     let now: Instant = Instant::now();
     let mut last_time: u64 = now.elapsed().as_secs();
-    println!("oasdjoaj");
-
     let sec_input = min_input * 60;
 
-    while  now.elapsed().as_secs() < min_input {
+    while  now.elapsed().as_secs() < sec_input {
         if last_time < now.elapsed().as_secs() {
             //println!("{}/{}", now.elapsed().as_secs(), min_input);
-            log_progress_bar(now.elapsed().as_secs(), min_input);
+            log_progress_bar(now.elapsed().as_secs(), sec_input);
             last_time = now.elapsed().as_secs();
         }
     }

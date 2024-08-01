@@ -30,8 +30,8 @@ fn main() {
             last_time = now.elapsed().as_secs();
         }
     }
-
-    println!("finished");
+    
+    println!("finished at {}", get_time());
     sound_alarm();
 }
 
@@ -69,4 +69,14 @@ fn sound_alarm() {
     .output()
     .expect("Error sounding the alarm")
     .stdout;
+}
+
+fn get_time() -> String {
+    let vec_time = Command::new("date")
+        .arg("+%H:%M:%S")
+        .output()
+        .expect("Error geting time")
+        .stdout;
+
+    String::from_utf8(vec_time).expect("Error parsing time")
 }
